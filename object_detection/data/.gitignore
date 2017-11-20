@@ -1,0 +1,2 @@
+# Load labels from TF Object Detection repo
+*.pbtxt
