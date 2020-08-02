@@ -1,0 +1,17 @@
+version: '3'
+services:
+  oggora:
+    container_name: oggora
+    image: 'tensorflow/tensorflow:1.4.0'
+    build: .
+    command: sh -c "/init.sh"
+    ports:
+      - 6006:6006
+      - 8888:8888
+    volumes:
+      - ./init.sh:/init.sh
+      - ./object_detection:/notebooks/oggora
+    networks:
+      default:
+networks:
+  default:
