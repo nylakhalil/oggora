@@ -1,78 +1,47 @@
-import numpy as np
+# Copyright 2018 The TensorFlow Hub Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==============================================================================
+
+###
+# Derived and modified from https://github.com/tensorflow/hub/blob/master/examples/colab/object_detection.ipynb
+###
+
 import os
-import six.moves.urllib as urllib
-import sys
-import tarfile
+import numpy as np
 import tensorflow as tf
-import zipfile
+import tensorflow_hub as hub
 
-from collections import defaultdict
-from io import StringIO
+from absl import app
+from absl import flags
+from absl import logging
+
 from PIL import Image
+from PIL import ImageColor
+from PIL import ImageDraw
+from PIL import ImageFont
 
-from utils import label_map_util
-from utils import visualization_utils as vis_util
+MODELS = {
+  'inception_resnet_v2': 'https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1', 
+  'mobilenet_v2': 'https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1'
+}
 
-MODELS = ['ssd_mobilenet_v1_coco', 'ssd_inception_v2_coco', 'rfcn_resnet101_coco', 'faster_rcnn_resnet101_coco', 'faster_rcnn_inception_resnet_v2_atrous_coco']
-
-flags = tf.app.flags
-
-flags.DEFINE_integer('model', 1, 'The model to use ' + str(MODELS))
-flags.DEFINE_integer('classes', 100, 'The number of classes (default: 100)')
-flags.DEFINE_string('date', '_11_06_2017', 'The date of model (default: _11_06_2017)')
-flags.DEFINE_string('labels', 'mscoco_label_map.pbtxt', 'Label file (default: mscoco_label_map.pbtxt)')
+FLAGS = flags.FLAGS
+flags.DEFINE_string('model', 'mobilenet_v2', 'The model to use ' + str(MODELS))
 flags.DEFINE_string('imgdir', 'images', 'Directory for input images (default: images)')
 flags.DEFINE_string('outdir', 'output', 'Directory for output images (default: output)')
-args = flags.FLAGS
 
-#parser = argparse.ArgumentParser(description='TF Object Dectection. Unless arguments are provided, default values will be used.')
-#parser.add_argument('--model', metavar='M', default=1, type=int, choices=range(0, 4), help='The model to use (default: %(default)s) - ' + str(MODELS))
-#parser.add_argument('--date', metavar='T', default='_11_06_2017', help='The date of model (default: %(default)s)')
-#parser.add_argument('--labels', metavar='L', default='mscoco_label_map.pbtxt', help='Label file (default: %(default)s)')
-#parser.add_argument('--classes', metavar='C', default=100, type=int, help='The number of classes (default: %(default)s)')
-#parser.add_argument('--imgdir', metavar='T', default='images', help='Directory for input images (default: %(default)s)')
-#parser.add_argument('--outdir', metavar='T', default='output', help='Directory for output images (default: %(default)s)')
-#args = parser.parse_args()
-
-# Model preparation  - What model to download.
-MODEL_NAME = MODELS[args.model] + args.date
-MODEL_PATH = os.path.join('model')
-DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
-NUM_CLASSES = args.classes
-
-# Path to frozen detection graph. This is the actual model that is used for the object detection.
-PATH_TO_CKPT = os.path.join(MODEL_PATH, MODEL_NAME, 'frozen_inference_graph.pb')
-
-# List of the strings that is used to add correct label for each box.
-PATH_TO_LABELS = os.path.join('data', args.labels)
-PATH_TO_IMAGES_DIR = args.imgdir
-PATH_TO_OUTPUT_DIR = args.outdir
-
-def get_model():
-  tar_name = MODEL_NAME + '.tar.gz'
-  tar_path = os.path.join(MODEL_PATH, tar_name)
-  dir_path = os.path.join(MODEL_PATH, MODEL_NAME)
-  print("Model Path: {}".format(dir_path))
-
-  if not os.path.isfile(tar_path):
-    print("Downloading Model: {}".format(tar_path))
-    opener = urllib.request.URLopener()
-    opener.retrieve(DOWNLOAD_BASE + tar_name, tar_path)
-
-  if not os.path.isdir(dir_path):
-    print("Extracting Model: {}".format(dir_path))
-    tar_file = tarfile.open(tar_path)
-    for file in tar_file.getmembers():
-      file_name = os.path.basename(file.name)
-      if 'frozen_inference_graph.pb' in file_name:
-        tar_file.extract(file, MODEL_PATH)
-
-
-# ## Helper code
-def load_image_into_numpy_array(image):
-  (im_width, im_height) = image.size
-  return np.array(image.getdata()).reshape(
-      (im_height, im_width, 3)).astype(np.uint8)
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
 def get_image_paths(dir_path):
@@ -81,73 +50,122 @@ def get_image_paths(dir_path):
   return files
 
 
-def load_detection_graph(ckpt_path): 
-  # Load a (frozen) Tensorflow model into memory.
-  detection_graph = tf.Graph()
-  with detection_graph.as_default():
-    od_graph_def = tf.GraphDef()
-    get_model()
-
-    with tf.gfile.GFile(ckpt_path, 'rb') as fid:
-      serialized_graph = fid.read()
-      od_graph_def.ParseFromString(serialized_graph)
-      tf.import_graph_def(od_graph_def, name='')
-  return detection_graph
+def save_image(img_array, save_path):
+  print("Saving Image: {}".format(save_path))
+  image = Image.fromarray(img_array)
+  image.save(save_path, format="JPEG", quality=90)
 
 
-def main(_):
-  # ## Loading label map
-  # Label maps map indices to category names, so that when our convolution network predicts `5`, we know that this corresponds to `airplane`.  Here we use internal utility functions, but anything that returns a dictionary mapping integers to appropriate string labels would be fine
-  label_map = label_map_util.load_labelmap(PATH_TO_LABELS)
-  categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=NUM_CLASSES, use_display_name=True)
-  category_index = label_map_util.create_category_index(categories)
-
-  detection_graph = load_detection_graph(PATH_TO_CKPT)
-
-  with detection_graph.as_default():
-    with tf.Session(graph=detection_graph) as sess:
-      for file_name in get_image_paths(PATH_TO_IMAGES_DIR):
-
-        image_path = os.path.join(PATH_TO_IMAGES_DIR, file_name)
-        print("Processing Image: {}".format(image_path))
-        image = Image.open(image_path)
-
-        # the array based representation of the image will be used later in order to prepare the
-        # result image with boxes and labels on it.
-        image_np = load_image_into_numpy_array(image)
-        # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
-        image_np_expanded = np.expand_dims(image_np, axis=0)
-        image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
-        # Each box represents a part of the image where a particular object was detected.
-        boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
-        # Each score represent how level of confidence for each of the objects.
-        # Score is shown on the result image, together with the class label.
-        scores = detection_graph.get_tensor_by_name('detection_scores:0')
-        classes = detection_graph.get_tensor_by_name('detection_classes:0')
-        num_detections = detection_graph.get_tensor_by_name('num_detections:0')
-        
-        # Actual detection.
-        (boxes, scores, classes, num_detections) = sess.run(
-            [boxes, scores, classes, num_detections],
-            feed_dict={image_tensor: image_np_expanded})
-        
-        # Visualization of the results of a detection.
-        vis_util.visualize_boxes_and_labels_on_image_array(
-            image_np,
-            np.squeeze(boxes),
-            np.squeeze(classes).astype(np.int32),
-            np.squeeze(scores),
-            category_index,
-            use_normalized_coordinates=True,
-            line_thickness=8)
-
-        # Save the resulting image
-        result_path = os.path.join(PATH_TO_OUTPUT_DIR, os.path.splitext(file_name)[0] + "_result.jpg")
-        img = Image.fromarray(image_np, "RGB")
-        img.save(result_path)
-        print("Saved Image: {}".format(result_path))
+def display_image(image):
+  fig = plt.figure(figsize=(20, 15))
+  plt.grid(False)
+  plt.imshow(image)
 
 
+def load_image(image_path, new_height=256, new_width=256, resize=False):
+  img = tf.io.read_file(image_path)
+  img = tf.image.decode_image(img, channels=3)
+  if resize:
+    img = tf.image.resize(img, [new_height, new_width], method=tf.image.ResizeMethod.NEAREST_NEIGHBOR)
+  return img
 
-if __name__ == "__main__":
-    tf.app.run()
+
+def draw_bounding_box_on_image(image, ymin, xmin, ymax, xmax, dupe, color, font, thickness=4, display_str_list=()):
+  """Adds a bounding box to an image."""
+  draw = ImageDraw.Draw(image)
+  im_width, im_height = image.size
+  (left, right, top, bottom) = (xmin * im_width, xmax * im_width, ymin * im_height, ymax * im_height)
+  draw.line([(left, top), (left, bottom), (right, bottom), (right, top), (left, top)], width=thickness, fill=color)
+
+  # If the total height of the display strings added to the top of the bounding
+  # box exceeds the top of the image, stack the strings below the bounding box
+  # instead of above.
+  display_str_heights = [font.getsize(ds)[1] for ds in display_str_list]
+  # Each display_str has a top and bottom margin of 0.05x.
+  total_display_str_height = (1 + 2 * 0.05) * sum(display_str_heights)
+
+  if top > total_display_str_height:
+    text_bottom = top
+  else:
+    text_bottom = top + total_display_str_height
+
+  print(display_str_list)
+  # Reverse list and print from bottom to top.
+  for display_str in display_str_list[::-1]:
+    text_width, text_height = font.getsize(display_str)
+    margin = np.ceil(0.05 * text_height)
+
+    if dupe:
+      left = left + 400
+    
+    draw.rectangle([(left, text_bottom - text_height - 2 * margin), (left + text_width, text_bottom)], fill=color)
+    draw.text((left + margin, text_bottom - text_height - margin), display_str, fill="black", font=font)
+    text_bottom -= text_height - 2 * margin
+
+
+def draw_boxes(image, boxes, class_names, scores, max_boxes=10, min_score=0.1):
+  """Overlay labeled boxes on an image with formatted scores and label names."""
+  colors = list(ImageColor.colormap.values())
+
+  try:
+    font = ImageFont.truetype("/usr/share/fonts/truetype/noto/NotoMono-Regular.ttf", 50)
+  except IOError:
+    print("Font not found, using default font.")
+    font = ImageFont.load_default()
+
+  label_positions = []
+  for i in range(min(boxes.shape[0], max_boxes)):
+    if scores[i] >= min_score:
+      box = boxes[i]
+      ymin, xmin, ymax, xmax = tuple(box)
+      display_str = "{}: {}%".format(class_names[i].decode("ascii"), int(100 * scores[i]))
+      color = colors[hash(class_names[i]) % len(colors)]
+      image_pil = Image.fromarray(np.uint8(image)).convert("RGB")
+     
+      dupe = False
+      if label_positions.count(hash(str(box))) > 0:
+        print('Duplicate box: {}'.format(box))
+        dupe = True
+      else: 
+        label_positions.append(hash(str(box)))
+
+      draw_bounding_box_on_image(image_pil, ymin, xmin, ymax, xmax, dupe, color, font, display_str_list=[display_str])
+      np.copyto(image, np.array(image_pil))
+  return image
+
+
+def get_model(model_id):
+  MODEL_URL = MODELS.get(model_id)
+  print("Configuring Model: {}".format(MODEL_URL))
+  signatures = hub.load(MODEL_URL).signatures
+  print("Model Signatures: {}".format(signatures))
+  return signatures['default']
+
+
+def main(argv):
+  print("TensorFlow Version: {}".format(tf.__version__))
+  IMAGES_DIR_PATH = os.path.join(PROJECT_ROOT, FLAGS.imgdir)
+  OUTPUT_DIR_PATH = os.path.join(PROJECT_ROOT, FLAGS.outdir)
+  #print("GPUs Available: {}".format(tf.config.list_physical_devices('GPU')))
+
+  detector = get_model(FLAGS.model)
+
+  print("Processing images in directory: {}".format(IMAGES_DIR_PATH))
+  for file_name in get_image_paths(IMAGES_DIR_PATH):
+    image_path = os.path.join(IMAGES_DIR_PATH, file_name)
+
+    print("Loading Image: {}".format(image_path))
+    image = load_image(image_path)
+    image_tensor = tf.image.convert_image_dtype(image, tf.float32)[tf.newaxis, ...]
+
+    result = detector(image_tensor)
+    result = {key: value.numpy() for key,value in result.items()}
+    print("Found {} objects.".format(len(result["detection_boxes"])))
+    image_with_boxes = draw_boxes(image.numpy(), result["detection_boxes"], result["detection_class_entities"], result["detection_scores"])
+
+    save_path = os.path.join(OUTPUT_DIR_PATH, file_name)
+    save_image(image_with_boxes, save_path)
+  print("Processed images to directory: {}".format(OUTPUT_DIR_PATH))
+
+if __name__ == '__main__':
+  app.run(main)

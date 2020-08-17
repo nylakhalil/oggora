@@ -4,34 +4,38 @@ Playing around with TF samples
 
 #### Requirements
 
-- TF 1.4.0
-- TF Models
+- Docker 
+- TF 2.3.0 Docker image
+
 
 #### Setup
 
 ```
 images/   # Input images 
-data/     # Drop label files from object_detection/data
-model/    # Model data 
+model/    # Model data download folder
 oggora.py # Detection Py
 output/   # Output images 
-utils/    # Drop label_map_util and visualization_utils files from object_detection/utils
 ```
 
 #### Run
 
-Use Docker Compose to start container. Run `/notebooks/oggora/oggora.py` within the container or use the `oggora.ipynb` notebook for object detection.
+Use Docker Compose to start container. 
 
 ```
 # Build and start container
 docker-compose up --build
 ```
 
+####  Object Detection
+Run `/tf/object_detection/oggora.py` within the container or use the `oggora.ipynb` notebook via CLI link.
+
 ```
 # Exec into container to run
-cd /notebooks/oggora
-python oggora.py
+python3 /tf/object_detection/oggora.py 
 ```
+
+
+
 
 
 
