@@ -5,14 +5,14 @@ Playing around with TF samples
 #### Requirements
 
 - Docker 
-- TF 2.3.0 Docker image
+- [TF 2.3.0 Docker image](https://hub.docker.com/r/tensorflow/tensorflow)
 
 
 #### Setup
 
 ```
 images/   # Input images 
-model/    # Model data download folder
+model/    # Model data/download folder
 oggora.py # Detection Py
 output/   # Output images 
 ```
