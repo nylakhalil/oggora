@@ -3,12 +3,11 @@ services:
   oggora:
     container_name: oggora
     build: .
-    command: sh -c "/init.sh"
+    image: oggora:latest
+    command: sh -c "/tmp/init.sh"
     ports:
-      - 6006:6006
       - 8888:8888
     volumes:
-      - ./init.sh:/init.sh
       - ./object_detection:/tf/object_detection
     networks:
       default:

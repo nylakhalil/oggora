@@ -7,14 +7,9 @@ if [ "$PROTOBUF_STATUS" != "Status: install ok installed" ]; then
     apt-get update && apt-get install -y protobuf-compiler
 fi
 
-echo "Protobuf version is" $(protoc --version)
-echo "TensorFlow version is" $(python -c 'import tensorflow as tf; print(tf.__version__)')
-
-echo "Installing fonts"
-apt-get update && apt-get install fonts-noto-mono -y
-
-echo "Installing tensorflow_hub"
-pip3 install tensorflow_hub
+echo "Protobuf version: $(protoc --version)"
+echo "TensorFlow version: $(python -c 'import tensorflow as tf; print(tf.__version__)')"
+echo "TensorFlow devices: $(python -c 'import tensorflow as tf; print(tf.config.list_physical_devices())')"
 
 echo "Starting Jupyter Notebook"
-/etc/bash.bashrc && jupyter notebook --notebook-dir=/tf --ip 0.0.0.0 --no-browser --allow-root
+jupyter notebook --notebook-dir=/tf --ip 0.0.0.0 --no-browser --allow-root
