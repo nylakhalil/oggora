@@ -27,11 +27,13 @@ Start via CLI to run with GPUs.
 docker image build . --tag oggora:latest
 
 # Run with GPU devices in Docker >= 19.03 
-docker run --gpus all -it --rm -v object_detection:/tf/object_detection -p 8888:8888 oggora:latest
+docker run --gpus all -it --rm -v $PWD/tf_cache:/tf/cache -v $PWD/object_detection:/tf/object_detection -p 8888:8888 oggora:latest
 ```
 
+The Dockerfile configures `TFHUB_CACHE_DIR` environment variable to `/tf/cache` which is accessible from repo `tf_cache` directory.
+
 ####  Object Detection
-Run `/tf/object_detection/oggora.py` within the container or use the `oggora.ipynb` notebook via CLI link.
+Use the `oggora.ipynb` notebook via CLI link or run `/tf/object_detection/oggora.py` within the container.
 
 ```
 # Directories
@@ -47,8 +49,21 @@ object_detection/output/     # Output images
 python3 /tf/object_detection/oggora.py 
 ```
 
+![Output sample](./object_detection/output/pixel_detect.png?raw=true "Object detection sample output image")
 
+####  Image Segmentation
 
+Use the `segmentation.ipynb` notebook via CLI link.
+
+```
+# Directories
+
+image_segmentation/images/     # Input images 
+image_segmentation/model/      # Model folder
+image_segmentation/output/     # Output images 
+```
+
+![Output sample](./image_segmentation/output/pixel_segment.png?raw=true "Image Segmentation sample images")
 
 
 

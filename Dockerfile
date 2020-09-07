@@ -10,9 +10,10 @@ RUN apt-get update && \
 
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r /tmp/requirements.txt
+    pip install --no-cache-dir -r /tmp/requirements.txt \
+    pip install -q git+https://github.com/tensorflow/examples.git
 
-ENV TFHUB_CACHE_DIR=/tf/object_detection/model/
+ENV TFHUB_CACHE_DIR=/tf/cache/
 
 COPY init.sh /tmp/init.sh
 CMD ["bash", "/tmp/init.sh"]

@@ -8,6 +8,8 @@ services:
     ports:
       - 8888:8888
     volumes:
+      - ./tf_cache:/tf/cache
+      - ./image_segmentation:/tf/image_segmentation
       - ./object_detection:/tf/object_detection
     networks:
       default:
