@@ -49,7 +49,7 @@ object_detection/output/     # Output images
 python3 /tf/object_detection/oggora.py 
 ```
 
-![Output sample](./object_detection/output/pixel_detect.png?raw=true "Object detection sample output image")
+![Output image](./object_detection/output/pixel_detect.png?raw=true "Object detection output image of my cat")
 
 ####  Image Segmentation
 
@@ -63,7 +63,7 @@ image_segmentation/model/      # Model folder
 image_segmentation/output/     # Output images 
 ```
 
-![Output sample](./image_segmentation/output/pixel_segment.png?raw=true "Image Segmentation sample images")
+![Output image](./image_segmentation/output/pixel_segment.png?raw=true "Image Segmentation images of my cat")
 
 
 
