@@ -19,7 +19,7 @@ The GPU container runs `nvidia-smi` to verify GPU resource availability.
 ```sh
 # nvidia-smi
 +-----------------------------------------------------------------------------+
-| NVIDIA-SMI 515.86.01    Driver Version: 515.86.01    CUDA Version: 11.7     |
+|  NVIDIA-SMI 525.85.12    Driver Version: 525.85.12    CUDA Version: 12.0    |
 |-------------------------------+----------------------+----------------------+
                           ..........................
 +-----------------------------------------------------------------------------+
@@ -43,7 +43,7 @@ COMPOSE_PROFILES=gpu,tf docker compose up --build
 
 ```sh
 # Test CUDA container
-docker run --name oggora-gpu --rm --gpus all nvidia/cuda:11.7.0-base-ubuntu22.04 nvidia-smi
+docker run --name oggora-gpu --rm --gpus all nvidia/cuda:12.0.0-base-ubuntu22.04 nvidia-smi
 
 # Build image
 docker image build . --tag oggora-tf:latest
