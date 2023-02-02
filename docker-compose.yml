@@ -1,16 +1,37 @@
 version: '3'
 services:
-  oggora:
-    container_name: oggora
+  nvidia:
+    profiles: ["gpu"]
+    container_name: oggora-gpu
+    image: nvidia/cuda:11.7.0-base-ubuntu22.04
+    command: nvidia-smi
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  tensorflow:
+    profiles: ["tf"]
+    container_name: oggora-tf
+    image: oggora-tf:latest
     build: .
-    image: oggora:latest
     command: sh -c "/tmp/init.sh"
     ports:
       - 8888:8888
     volumes:
       - ./tf_cache:/tf/cache
+      - ./gpu_test:/tf/gpu_test
       - ./image_segmentation:/tf/image_segmentation
       - ./object_detection:/tf/object_detection
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     networks:
       default:
 networks:

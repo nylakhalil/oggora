@@ -1,5 +1,4 @@
-#FROM tensorflow/tensorflow:2.3.0-jupyter
-FROM tensorflow/tensorflow:2.3.0-gpu-jupyter
+FROM tensorflow/tensorflow:2.11.0-gpu-jupyter
 
 LABEL maintainer="nylakhalil.github.io"
 
@@ -10,8 +9,7 @@ RUN apt-get update && \
 
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r /tmp/requirements.txt \
-    pip install -q git+https://github.com/tensorflow/examples.git
+    pip install --no-cache-dir -r /tmp/requirements.txt
 
 ENV TFHUB_CACHE_DIR=/tf/cache/
 
