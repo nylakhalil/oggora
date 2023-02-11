@@ -14,17 +14,18 @@ services:
               capabilities: [gpu]
   tensorflow:
     profiles: ["tf"]
+    build:
+      context: ./tensorflow
     container_name: oggora-tf
     image: oggora-tf:latest
-    build: .
     command: sh -c "/tmp/init.sh"
     ports:
       - 8888:8888
     volumes:
-      - ./tf_cache:/tf/cache
-      - ./gpu_test:/tf/gpu_test
-      - ./image_segmentation:/tf/image_segmentation
-      - ./object_detection:/tf/object_detection
+      - ./tensorflow/tf_cache:/tf/cache
+      - ./tensorflow/gpu_test:/tf/gpu_test
+      - ./tensorflow/image_segmentation:/tf/image_segmentation
+      - ./tensorflow/object_detection:/tf/object_detection
     deploy:
       resources:
         reservations:

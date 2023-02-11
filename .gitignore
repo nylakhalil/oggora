@@ -1,3 +1,6 @@
+tensorflow/image_segmentation/dataset/*
+tensorflow/image_segmentation/models/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
