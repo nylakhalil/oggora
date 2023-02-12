@@ -33,6 +33,29 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+  pytorch:
+    profiles: ["pt"]
+    build:
+      context: ./pytorch
+      args:
+        IMAGE_TYPE: devel
+        CUDA_VERSION: 11.3.0 #12.0.0
+        UBUNTU_VERSION: 20.04
+    container_name: oggora-pt
+    image: oggora-pt:latest
+    command: sh -c "/tmp/init.sh"
+    ports:
+      - 8888:8888
+    volumes:
+      - ./pytorch/gpu_test:/pt/gpu_test
+      - ./pytorch/segmentation:/pt/segmentation
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     networks:
       default:
 networks:
