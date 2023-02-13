@@ -1,11 +1,11 @@
 ### oggora
 
-Playing around with TF samples
+Playing around with PyTorch and TensorFlow examples
 
 #### Requirements
 
-- Docker 
-- [TF 2.11.0 Docker image](https://hub.docker.com/r/tensorflow/tensorflow)
+- Docker
+- CUDA
 
 
 #### Run
@@ -31,12 +31,16 @@ The GPU container runs `nvidia-smi` to verify GPU resource availability.
 +-----------------------------------------------------------------------------+
 ```
 
-For CPU only usage, remove GPU configs.
-
 ##### Start via Compose
+
 ```sh
-# Build and start container
+# Build and start TensorFlow container
 COMPOSE_PROFILES=gpu,tf docker compose up --build
+```
+
+```sh
+# Build and start PyTorch container
+COMPOSE_PROFILES=gpu,pt docker compose up --build
 ```
 
 ##### Start via CLI
@@ -53,6 +57,23 @@ docker run --name oggora-tf --gpus all -it --rm -v $PWD/tf_cache:/tf/cache -v $P
 ```
 
 The Dockerfile configures `TFHUB_CACHE_DIR` environment variable to `/tf/cache` which is accessible from repo `tf_cache` directory.
+
+### PyTorch
+
+Use the `segmentation.ipynb` notebook via CLI link to use [Mask2Former](https://arxiv.org/abs/2112.01527) in [Detectron2](https://github.com/facebookresearch/detectron2).
+
+```
+# Directories
+
+pytorch/segmentation/input/       # Input images
+pytorch/segmentation/Mask2Former  # Model folder
+pytorch/segmentation/output/      # Output images 
+```
+
+![Output image](./pytorch/segmentation/output/combined_result_pixel.jpg?raw=true "Segmentation output image of Pixel the cat")
+
+
+### TensorFlow
 
 ####  Object Detection
 Use the `oggora.ipynb` notebook via CLI link or run `/tf/object_detection/oggora.py` within the container.
@@ -71,7 +92,7 @@ object_detection/output/     # Output images
 python3 /tf/object_detection/oggora.py 
 ```
 
-![Output image](./object_detection/output/pixel_detect.png?raw=true "Object detection output image of my cat")
+![Output image](./tensorflow/object_detection/output/pixel_detect.png?raw=true "Object detection output image of Pixel the cat")
 
 ####  Image Segmentation
 
@@ -80,12 +101,12 @@ Use the `segmentation.ipynb` notebook via CLI link.
 ```
 # Directories
 
-image_segmentation/images/     # Input images 
-image_segmentation/model/      # Model folder
-image_segmentation/output/     # Output images 
+tensorflow/image_segmentation/images/     # Input images 
+tensorflow/image_segmentation/model/      # Model folder
+tensorflow/image_segmentation/output/     # Output images 
 ```
 
-![Output image](./image_segmentation/output/pixel_segment.png?raw=true "Image Segmentation images of my cat")
+![Output image](./tensorflow/image_segmentation/output/pixel_segment.png?raw=true "Image Segmentation output image of Pixel the cat")
 
 
 
