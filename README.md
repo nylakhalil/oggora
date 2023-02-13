@@ -60,7 +60,7 @@ The Dockerfile configures `TFHUB_CACHE_DIR` environment variable to `/tf/cache` 
 
 ### PyTorch
 
-Use the `segmentation.ipynb` notebook via CLI link to use [Mask2Former](https://arxiv.org/abs/2112.01527) in [Detectron2](https://github.com/facebookresearch/detectron2).
+Use the `segmentation.ipynb` notebook via CLI link to use [Mask2Former](https://github.com/facebookresearch/Mask2Former) in [Detectron2](https://github.com/facebookresearch/detectron2).
 
 ```
 # Directories
