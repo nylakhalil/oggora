@@ -14,7 +14,7 @@ Review [TF GPU requirements](https://www.tensorflow.org/install/pip#hardware_req
 
 Tested on Ubuntu 22.10 with NVIDIA GPU, [NVIDIA driver](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#pre-requisites) and [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
 
-The GPU container runs `nvidia-smi` to verify GPU resource availability.
+The GPU container runs `nvidia-smi` to verify GPU resource availability. All notebooks tested on a 8GB RTX 3070 Ti GPU.
 
 ```sh
 # nvidia-smi

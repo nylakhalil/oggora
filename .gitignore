@@ -1,10 +1,10 @@
-tensorflow/share/image_segmentation/dataset/*
-tensorflow/share/image_segmentation/models/*
+tensorflow/share/image_segmentation/dataset/
+tensorflow/share/image_segmentation/models/
 
-pytorch/share/diffusers/.ipynb_checkpoints/*
-pytorch/share/diffusers/stable-diffusion-v1-5/*
+pytorch/share/diffusers/.ipynb_checkpoints/
+pytorch/share/diffusers/stable-diffusion-v1-5/
 
-pytorch/share/gpu_test/.ipynb_checkpoints/*
+pytorch/share/gpu_test/.ipynb_checkpoints/
 
 pytorch/share/midas/*.jpg
 pytorch/share/midas/.ipynb_checkpoints/*
