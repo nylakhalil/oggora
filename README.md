@@ -101,7 +101,7 @@ object_detection/output/     # Output images
 python3 /tf/object_detection/oggora.py 
 ```
 
-![Output image](./tensorflow/object_detection/output/pixel_detect.png?raw=true "Object detection output image of Pixel the cat")
+![Output image](./tensorflow/share/object_detection/output/pixel_detect.png?raw=true "Object detection output image of Pixel the cat")
 
 ####  Image Segmentation
 
@@ -115,7 +115,7 @@ tensorflow/image_segmentation/model/      # Model folder
 tensorflow/image_segmentation/output/     # Output images 
 ```
 
-![Output image](./tensorflow/image_segmentation/output/pixel_segment.png?raw=true "Image Segmentation output image of Pixel the cat")
+![Output image](./tensorflow/share/image_segmentation/output/pixel_segment.png?raw=true "Image Segmentation output image of Pixel the cat")
 
 
 

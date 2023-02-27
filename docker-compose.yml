@@ -22,10 +22,7 @@ services:
     ports:
       - 8888:8888
     volumes:
-      - ./tensorflow/tf_cache:/tf/cache
-      - ./tensorflow/gpu_test:/tf/gpu_test
-      - ./tensorflow/image_segmentation:/tf/image_segmentation
-      - ./tensorflow/object_detection:/tf/object_detection
+      - ./tensorflow/share:/tf
     deploy:
       resources:
         reservations:
