@@ -47,8 +47,7 @@ services:
     ports:
       - 8888:8888
     volumes:
-      - ./pytorch/gpu_test:/pt/gpu_test
-      - ./pytorch/segmentation:/pt/segmentation
+      - ./pytorch/share:/pt
     deploy:
       resources:
         reservations:

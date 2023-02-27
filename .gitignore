@@ -1,6 +1,19 @@
 tensorflow/image_segmentation/dataset/*
 tensorflow/image_segmentation/models/*
 
+pytorch/share/diffusers/.ipynb_checkpoints/*
+pytorch/share/diffusers/stable-diffusion-v1-5/*
+
+pytorch/share/gpu_test/.ipynb_checkpoints/*
+
+pytorch/share/midas/*.jpg
+pytorch/share/midas/.ipynb_checkpoints/*
+
+pytorch/share/segmentation/Mask2Former/
+pytorch/share/segmentation/.ipynb_checkpoints/*
+
+pytorch/share/torch/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
