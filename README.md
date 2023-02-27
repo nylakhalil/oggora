@@ -62,7 +62,7 @@ The Dockerfile configures `TFHUB_CACHE_DIR` environment variable to `/tf/cache` 
 
 ####  Segmentation
 
-Use the `segmentation.ipynb` notebook via CLI link to use [Mask2Former](https://github.com/facebookresearch/Mask2Former) in [Detectron2](https://github.com/facebookresearch/detectron2).
+Use the [segmentation.ipynb](./pytorch/share/segmentation/segmentation.ipynb) notebook via CLI link to use [Mask2Former](https://github.com/facebookresearch/Mask2Former) in [Detectron2](https://github.com/facebookresearch/detectron2).
 
 ```
 # Directories
@@ -76,16 +76,16 @@ pytorch/segmentation/output/      # Output images
 
 ####  MiDaS
 
-Use the `midas.ipynb` notebook for [MiDaS](https://github.com/isl-org/MiDaS).
+Use the [midas.ipynb](./pytorch/share/midas/midas.ipynb) notebook for [MiDaS](https://github.com/isl-org/MiDaS).
 
 ####  Diffusers
 
-Use the `diffusers.ipynb` notebook for Stable Diffusion via Hugging Face's [diffusers](https://github.com/huggingface/diffusers).
+Use the [diffusers.ipynb](./pytorch/share/diffusers/diffusers.ipynb) notebook for Stable Diffusion via Hugging Face's [diffusers](https://github.com/huggingface/diffusers).
 
 ### TensorFlow
 
 ####  Object Detection
-Use the `oggora.ipynb` notebook via CLI link or run `/tf/object_detection/oggora.py` within the container.
+Use the [oggora.ipynb](tensorflow/share/object_detection/oggora.ipynb) notebook via CLI link or run `/tf/object_detection/oggora.py` within the container.
 
 ```
 # Directories
@@ -105,7 +105,7 @@ python3 /tf/object_detection/oggora.py
 
 ####  Image Segmentation
 
-Use the `segmentation.ipynb` notebook via CLI link.
+Use the [segmentation.ipynb](tensorflow/share/image_segmentation/segmentation.ipynb) notebook via CLI link.
 
 ```
 # Directories
