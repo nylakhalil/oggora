@@ -60,20 +60,6 @@ The Dockerfile configures `TFHUB_CACHE_DIR` environment variable to `/tf/cache` 
 
 ### PyTorch
 
-####  Segmentation
-
-Use the [segmentation.ipynb](./pytorch/share/segmentation/segmentation.ipynb) notebook via CLI link to use [Mask2Former](https://github.com/facebookresearch/Mask2Former) in [Detectron2](https://github.com/facebookresearch/detectron2).
-
-```
-# Directories
-
-pytorch/segmentation/input/       # Input images
-pytorch/segmentation/Mask2Former  # Model folder
-pytorch/segmentation/output/      # Output images 
-```
-
-![Output image](./pytorch/share/segmentation/output/combined_result_pixel.jpg?raw=true "Segmentation output image of Pixel the cat")
-
 ####  MiDaS
 
 Use the [midas.ipynb](./pytorch/share/midas/midas.ipynb) notebook for [MiDaS](https://github.com/isl-org/MiDaS).

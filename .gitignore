@@ -1,5 +1,8 @@
+tensorflow/share/cycle_gan/*
+tensorflow/share/deep_dream/*
 tensorflow/share/image_segmentation/dataset/
 tensorflow/share/image_segmentation/models/
+tensorflow/share/cache/
 
 pytorch/share/diffusers/.ipynb_checkpoints/
 pytorch/share/diffusers/stable-diffusion-v1-5/
