@@ -58,19 +58,19 @@ docker run --name oggora-tf --gpus all -it --rm -v $PWD/tf_cache:/tf/cache -v $P
 
 The Dockerfile configures `TFHUB_CACHE_DIR` environment variable to `/tf/cache` which is accessible from repo `tf_cache` directory.
 
-### PyTorch
+### PyTorch (v2.0.1)
 
 ####  MiDaS
 
 Use the [midas.ipynb](./pytorch/share/midas/midas.ipynb) notebook for [MiDaS](https://github.com/isl-org/MiDaS).
 
-####  Diffusers
+#### Stable Diffusion
 
 Use the [diffusers.ipynb](./pytorch/share/diffusers/diffusers.ipynb) notebook for Stable Diffusion via Hugging Face's [diffusers](https://github.com/huggingface/diffusers).
 
-### TensorFlow
+### TensorFlow (v2.11.0)
 
-####  Object Detection
+#### Object Detection
 Use the [oggora.ipynb](tensorflow/share/object_detection/oggora.ipynb) notebook via CLI link or run `/tf/object_detection/oggora.py` within the container.
 
 ```
@@ -89,7 +89,7 @@ python3 /tf/object_detection/oggora.py
 
 ![Output image](./tensorflow/share/object_detection/output/pixel_detect.png?raw=true "Object detection output image of Pixel the cat")
 
-####  Image Segmentation
+#### Image Segmentation
 
 Use the [segmentation.ipynb](tensorflow/share/image_segmentation/segmentation.ipynb) notebook via CLI link.
 
