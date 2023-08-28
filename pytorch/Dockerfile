@@ -22,7 +22,7 @@ RUN ln -s $(which python3) /usr/local/bin/python
 
 COPY requirements.txt /tmp/
 
-RUN pip install torch==2.0.0+cu118 torchvision==0.15.1+cu118 torchaudio==2.0.1 --index-url https://download.pytorch.org/whl/cu118
+RUN pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 torchaudio==2.0.2+cu118 --index-url https://download.pytorch.org/whl/cu118
 
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r /tmp/requirements.txt 
