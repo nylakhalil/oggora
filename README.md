@@ -64,6 +64,10 @@ The Dockerfile configures `TFHUB_CACHE_DIR` environment variable to `/tf/cache` 
 
 Use the [midas.ipynb](./pytorch/share/midas/midas.ipynb) notebook for [MiDaS](https://github.com/isl-org/MiDaS).
 
+#### Segment Anything
+
+Use the [sam.ipynb](./pytorch/share/sam/sam.ipynb) notebook for [Segment Anything Model (SAM)](https://github.com/facebookresearch/segment-anything/) from Meta AI FAIR.
+
 #### Stable Diffusion
 
 Use the [diffusers.ipynb](./pytorch/share/diffusers/diffusers.ipynb) notebook for Stable Diffusion via Hugging Face's [diffusers](https://github.com/huggingface/diffusers).
