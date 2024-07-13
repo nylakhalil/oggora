@@ -19,7 +19,7 @@ The GPU container runs `nvidia-smi` to verify GPU resource availability. All not
 ```sh
 # nvidia-smi
 +-----------------------------------------------------------------------------+
-|  NVIDIA-SMI 525.85.12    Driver Version: 525.85.12    CUDA Version: 12.0    |
+|  NVIDIA-SMI 535.183.01    Driver Version: 535.183.01    CUDA Version: 12.2  |
 |-------------------------------+----------------------+----------------------+
                           ..........................
 +-----------------------------------------------------------------------------+
@@ -58,7 +58,7 @@ docker run --name oggora-tf --gpus all -it --rm -v $PWD/tf_cache:/tf/cache -v $P
 
 The Dockerfile configures `TFHUB_CACHE_DIR` environment variable to `/tf/cache` which is accessible from repo `tf_cache` directory.
 
-### PyTorch (v2.0.1)
+### PyTorch (v12.2.2)
 
 ####  MiDaS
 
@@ -72,7 +72,7 @@ Use the [sam.ipynb](./pytorch/share/sam/sam.ipynb) notebook for [Segment Anythin
 
 Use the [diffusers.ipynb](./pytorch/share/diffusers/diffusers.ipynb) notebook for Stable Diffusion via Hugging Face's [diffusers](https://github.com/huggingface/diffusers).
 
-### TensorFlow (v2.11.0)
+### TensorFlow (v2.17.0)
 
 #### Object Detection
 Use the [oggora.ipynb](tensorflow/share/object_detection/oggora.ipynb) notebook via CLI link or run `/tf/object_detection/oggora.py` within the container.
