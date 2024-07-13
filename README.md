@@ -12,7 +12,7 @@ Playing around with PyTorch and TensorFlow examples
 
 Review [TF GPU requirements](https://www.tensorflow.org/install/pip#hardware_requirements) to ensure GPU compatibility. To levarge GPUs within containers, refer to [TF Docker requirements](https://www.tensorflow.org/install/docker#tensorflow_docker_requirements) and [NVIDIA instructions](https://docs.nvidia.com/datacenter/cloud-native/index.html). 
 
-Tested on Ubuntu 22.10 with NVIDIA GPU, [NVIDIA driver](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#pre-requisites) and [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
+Tested on Ubuntu 24.04 with NVIDIA GPU, [NVIDIA driver](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#pre-requisites) and [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
 
 The GPU container runs `nvidia-smi` to verify GPU resource availability. All notebooks tested on a 8GB RTX 3070 Ti GPU.
 
