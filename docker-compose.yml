@@ -36,8 +36,8 @@ services:
       context: ./pytorch
       args:
         IMAGE_TYPE: devel
-        CUDA_VERSION: 11.8.0
-        UBUNTU_VERSION: 20.04
+        CUDA_VERSION: 12.2.2
+        UBUNTU_VERSION: 22.04
     container_name: oggora-pt
     image: oggora-pt:latest
     command: sh -c "/tmp/init.sh"

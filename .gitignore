@@ -16,6 +16,7 @@ pytorch/share/segmentation/Mask2Former/
 pytorch/share/segmentation/.ipynb_checkpoints/*
 
 pytorch/share/torch/*
+pytorch/share/.Trash*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
