@@ -1,9 +1,8 @@
-version: '3'
 services:
   nvidia:
     profiles: ["gpu"]
     container_name: oggora-gpu
-    image: nvidia/cuda:12.0.0-base-ubuntu22.04
+    image: nvidia/cuda:12.8.1-cudnn-runtime-ubuntu24.04
     command: nvidia-smi
     deploy:
       resources:
@@ -30,14 +29,20 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+          cpus: '2'
+          memory: 16G
+        limits:
+          cpus: '4'
+          memory: 24G
   pytorch:
     profiles: ["pt"]
     build:
       context: ./pytorch
       args:
-        IMAGE_TYPE: devel
-        CUDA_VERSION: 12.2.2
-        UBUNTU_VERSION: 22.04
+        CUDA_VERSION: '12.8.1'
+        IMAGE_OS: 'ubuntu'
+        IMAGE_TYPE: '-cudnn-runtime-'
+        IMAGE_VERSION: '24.04'
     container_name: oggora-pt
     image: oggora-pt:latest
     command: sh -c "/tmp/init.sh"
@@ -52,6 +57,11 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+          cpus: '2'
+          memory: 16G
+        limits:
+          cpus: '4'
+          memory: 24G
     networks:
       default:
 networks:
